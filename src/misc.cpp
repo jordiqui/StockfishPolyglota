@@ -1,6 +1,6 @@
 /*
-  Stockfish, a UCI chess playing engine derived from Glaurung 2.1
-  Copyright (C) 2004-2025 The Stockfish developers (see AUTHORS file)
+  SF-PG-300925, a Stockfish-based UCI chess engine with Polyglot (.bin) book support and ChatGPT-inspired ideas
+  Authors: Jorge Ruiz, Codex ChatGPT, and the Stockfish developers (see AUTHORS file)
 
   Stockfish is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -40,7 +40,9 @@ namespace Stockfish {
 namespace {
 
 // Version number or dev.
-constexpr std::string_view version = "dev";
+constexpr std::string_view engine_name        = "SF-PG-300925";
+constexpr std::string_view upstream_engine    = "Stockfish";
+constexpr std::string_view version            = "dev";
 
 // Our fancy logging facility. The trick here is to replace cin.rdbuf() and
 // cout.rdbuf() with two Tie objects that tie cin and cout to a file stream. We
@@ -113,20 +115,21 @@ class Logger {
 }  // namespace
 
 
-// Returns the full name of the current Stockfish version.
+// Returns the display name of SF-PG-300925 including the upstream Stockfish version.
 //
 // For local dev compiles we try to append the commit SHA and
-// commit date from git. If that fails only the local compilation
-// date is set and "nogit" is specified:
-//      Stockfish dev-YYYYMMDD-SHA
+// commit date from git to the upstream Stockfish identifier. If that fails only
+// the local compilation date is set and "nogit" is specified:
+//      SF-PG-300925 (Stockfish dev-YYYYMMDD-SHA)
 //      or
-//      Stockfish dev-YYYYMMDD-nogit
+//      SF-PG-300925 (Stockfish dev-YYYYMMDD-nogit)
 //
 // For releases (non-dev builds) we only include the version number:
-//      Stockfish version
+//      SF-PG-300925 (Stockfish version)
 std::string engine_version_info() {
     std::stringstream ss;
-    ss << "Stockfish " << version << std::setfill('0');
+    ss << engine_name << " (" << upstream_engine << " " << version;
+    ss << std::setfill('0');
 
     if constexpr (version == "dev")
     {
@@ -153,12 +156,14 @@ std::string engine_version_info() {
 #endif
     }
 
+    ss << ")";
+
     return ss.str();
 }
 
 std::string engine_info(bool to_uci) {
     return engine_version_info() + (to_uci ? "\nid author " : " by ")
-         + "the Stockfish developers (see AUTHORS file)";
+         + "Jorge Ruiz, Codex ChatGPT, and the Stockfish developers (see AUTHORS file)";
 }
 
 
