@@ -39,10 +39,10 @@ namespace Stockfish {
 
 namespace {
 
-// Version number or dev.
-constexpr std::string_view engine_name        = "SF-PG-300925";
-constexpr std::string_view upstream_engine    = "Stockfish";
-constexpr std::string_view version            = "dev";
+// Engine branding. We expose only the SF-PG identifier to both console headers
+// and the UCI "id name" field so that no upstream Stockfish development tag is
+// appended.
+constexpr std::string_view engine_name = "SF-PG-300925";
 
 // Our fancy logging facility. The trick here is to replace cin.rdbuf() and
 // cout.rdbuf() with two Tie objects that tie cin and cout to a file stream. We
@@ -115,50 +115,11 @@ class Logger {
 }  // namespace
 
 
-// Returns the display name of SF-PG-300925 including the upstream Stockfish version.
-//
-// For local dev compiles we try to append the commit SHA and
-// commit date from git to the upstream Stockfish identifier. If that fails only
-// the local compilation date is set and "nogit" is specified:
-//      SF-PG-300925 (Stockfish dev-YYYYMMDD-SHA)
-//      or
-//      SF-PG-300925 (Stockfish dev-YYYYMMDD-nogit)
-//
-// For releases (non-dev builds) we only include the version number:
-//      SF-PG-300925 (Stockfish version)
+// Returns the display name of SF-PG-300925. The engine intentionally avoids
+// appending the upstream Stockfish development tag so that the banner reads
+// exactly "SF-PG-300925".
 std::string engine_version_info() {
-    std::stringstream ss;
-    ss << engine_name << " (" << upstream_engine << " " << version;
-    ss << std::setfill('0');
-
-    if constexpr (version == "dev")
-    {
-        ss << "-";
-#ifdef GIT_DATE
-        ss << stringify(GIT_DATE);
-#else
-        constexpr std::string_view months("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec");
-
-        std::string       month, day, year;
-        std::stringstream date(__DATE__);  // From compiler, format is "Sep 21 2008"
-
-        date >> month >> day >> year;
-        ss << year << std::setw(2) << std::setfill('0') << (1 + months.find(month) / 4)
-           << std::setw(2) << std::setfill('0') << day;
-#endif
-
-        ss << "-";
-
-#ifdef GIT_SHA
-        ss << stringify(GIT_SHA);
-#else
-        ss << "nogit";
-#endif
-    }
-
-    ss << ")";
-
-    return ss.str();
+    return std::string(engine_name);
 }
 
 std::string engine_info(bool to_uci) {
