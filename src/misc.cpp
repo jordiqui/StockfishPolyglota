@@ -162,7 +162,9 @@ std::string engine_version_info() {
 }
 
 std::string engine_info(bool to_uci) {
-    return engine_version_info() + (to_uci ? "\nid author " : " by ")
+    const std::string name = to_uci ? std::string(engine_name) : engine_version_info();
+
+    return name + (to_uci ? "\nid author " : " by ")
          + "Jorge Ruiz, Codex ChatGPT, and the Stockfish developers (see AUTHORS file)";
 }
 
