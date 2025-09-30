@@ -58,6 +58,8 @@ Para profundizar en los conceptos y opciones heredados de Stockfish, consulta la
   adaptación del motor.
 * **Desarrolladores de Stockfish** – La lista completa de autores originales se
   encuentra en el archivo [AUTHORS](AUTHORS) y en [Top CPU Contributors.txt](Top CPU Contributors.txt).
+  Cada archivo fuente de `src/` mantiene en su encabezado una referencia expresa
+  a estos colaboradores para honrar su contribución esencial.
 
 Este trabajo es un derivado directo de Stockfish y respeta la licencia GPLv3
 incluida en [Copying.txt][license-link].
