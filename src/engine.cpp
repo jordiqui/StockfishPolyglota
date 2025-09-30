@@ -35,6 +35,7 @@
 #include "nnue/nnue_common.h"
 #include "numa.h"
 #include "perft.h"
+#include "polybook.h"
 #include "position.h"
 #include "search.h"
 #include "syzygy/tbprobe.h"
@@ -127,6 +128,42 @@ Engine::Engine(std::optional<std::string> path) :
     options.add("Syzygy50MoveRule", Option(true));
 
     options.add("SyzygyProbeLimit", Option(7, 0, 7));
+
+    options.add("Book1", Option(false));
+    options.add("Book1 File", Option("", [](const Option& o) {
+                    polybook[0].init(o);
+                    return std::nullopt;
+                }));
+    options.add("Book1 BestBookMove", Option(false));
+    options.add("Book1 Depth", Option(255, 1, 350));
+    options.add("Book1 Width", Option(1, 1, 10));
+
+    options.add("Book2", Option(false));
+    options.add("Book2 File", Option("", [](const Option& o) {
+                    polybook[1].init(o);
+                    return std::nullopt;
+                }));
+    options.add("Book2 BestBookMove", Option(false));
+    options.add("Book2 Depth", Option(255, 1, 350));
+    options.add("Book2 Width", Option(1, 1, 10));
+
+    options.add("Book3", Option(false));
+    options.add("Book3 File", Option("", [](const Option& o) {
+                    polybook[2].init(o);
+                    return std::nullopt;
+                }));
+    options.add("Book3 BestBookMove", Option(false));
+    options.add("Book3 Depth", Option(255, 1, 350));
+    options.add("Book3 Width", Option(1, 1, 10));
+
+    options.add("Book4", Option(false));
+    options.add("Book4 File", Option("", [](const Option& o) {
+                    polybook[3].init(o);
+                    return std::nullopt;
+                }));
+    options.add("Book4 BestBookMove", Option(false));
+    options.add("Book4 Depth", Option(255, 1, 350));
+    options.add("Book4 Width", Option(1, 1, 10));
 
     options.add(  //
       "EvalFile", Option(EvalFileDefaultNameBig, [this](const Option& o) {
