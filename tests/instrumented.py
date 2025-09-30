@@ -8,6 +8,7 @@ import os
 from testing import (
     EPD,
     TSAN,
+    ENGINE_ID,
     Stockfish as Engine,
     MiniTestFramework,
     OrderedClassMembers,
@@ -214,7 +215,7 @@ class TestInteractive(metaclass=OrderedClassMembers):
         self.stockfish.clear_output()
 
     def test_startup_output(self):
-        self.stockfish.starts_with("Stockfish")
+        self.stockfish.starts_with(ENGINE_ID)
 
     def test_uci_command(self):
         self.stockfish.send_command("uci")
@@ -426,7 +427,7 @@ class TestSyzygy(metaclass=OrderedClassMembers):
         self.stockfish.clear_output()
 
     def test_syzygy_setup(self):
-        self.stockfish.starts_with("Stockfish")
+        self.stockfish.starts_with(ENGINE_ID)
         self.stockfish.send_command("uci")
         self.stockfish.send_command(
             f"setoption name SyzygyPath value {os.path.join(PATH, 'syzygy')}"

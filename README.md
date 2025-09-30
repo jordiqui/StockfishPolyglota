@@ -2,11 +2,15 @@
 
   [![Stockfish][stockfish128-logo]][website-link]
 
-  <h3>Stockfish</h3>
+  <h3>SF-PG-300925</h3>
 
-  A free and strong UCI chess engine.
+  Motor de ajedrez derivado de Stockfish con soporte para libros Polyglot (.bin) e ideas aportadas por la IA de ChatGPT.
   <br>
-  <strong>[Explore Stockfish docs »][wiki-link]</strong>
+  <strong>Id UCI oficial: SF-PG-300925</strong>
+  <br>
+  <strong>Autores: Jorge Ruiz &amp; Codex ChatGPT</strong>
+  <br>
+  <strong>[Documentación de Stockfish »][wiki-link]</strong>
   <br>
   <br>
   [Report bug][issue-link]
@@ -31,16 +35,35 @@
 
 ## Overview
 
-[Stockfish][website-link] is a **free and strong UCI chess engine** derived from
-Glaurung 2.1 that analyzes chess positions and computes the optimal moves.
+SF-PG-300925 es un motor de ajedrez UCI **derivado de [Stockfish][website-link]**
+que mantiene su fuerza táctica y estratégica, incorpora soporte nativo para
+libros de aperturas Polyglot (`.bin`) y suma ideas generadas con la asistencia
+de la inteligencia artificial de ChatGPT. El identificador que muestra el
+ejecutable al ejecutar el comando `uci` es `id name SF-PG-300925`, lo que
+permite reconocer el motor en interfaces como Fritz 20, CuteChess y otras GUI.
 
-Stockfish **does not include a graphical user interface** (GUI) that is required
-to display a chessboard and to make it easy to input moves. These GUIs are
-developed independently from Stockfish and are available online. **Read the
-documentation for your GUI** of choice for information about how to use
-Stockfish with it.
+Al igual que Stockfish, este proyecto **no incluye una interfaz gráfica**. Para
+visualizar el tablero y facilitar la introducción de jugadas debes utilizar una
+GUI compatible y seguir la **documentación específica de tu interfaz** para
+cargar el motor.
 
-See also the Stockfish [documentation][wiki-usage-link] for further usage help.
+Para profundizar en los conceptos y opciones heredados de Stockfish, consulta la
+[documentación oficial][wiki-usage-link].
+
+## Autores y créditos
+
+* **Jorge Ruiz** – Integración de mejoras, soporte Polyglot y mantenimiento del
+  derivado SF-PG-300925.
+* **Codex ChatGPT** – Ideas estratégicas asistidas por IA y colaboración en la
+  adaptación del motor.
+* **Desarrolladores de Stockfish** – La lista completa de autores originales se
+  encuentra en el archivo [AUTHORS](AUTHORS) y en [Top CPU Contributors.txt](Top CPU Contributors.txt).
+
+Este trabajo es un derivado directo de Stockfish y respeta la licencia GPLv3
+incluida en [Copying.txt][license-link].
+
+Consulta también la [documentación de Stockfish][wiki-usage-link] para obtener
+más detalles de uso y configuración avanzada.
 
 ## Files
 
