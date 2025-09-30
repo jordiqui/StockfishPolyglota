@@ -41,6 +41,7 @@
 #include "movepick.h"
 #include "nnue/network.h"
 #include "nnue/nnue_accumulator.h"
+#include "polybook.h"
 #include "position.h"
 #include "syzygy/tbprobe.h"
 #include "thread.h"
@@ -173,6 +174,8 @@ void Search::Worker::start_searching() {
                             main_manager()->originalTimeAdjust);
     tt.new_search();
 
+    Move bookMove = Move::none();
+
     if (rootMoves.empty())
     {
         rootMoves.emplace_back(Move::none());
@@ -181,8 +184,43 @@ void Search::Worker::start_searching() {
     }
     else
     {
-        threads.start_searching();  // start non-main threads
-        iterative_deepening();      // main thread start searching
+        if (!limits.infinite && !limits.mate)
+        {
+            const int currentMoveNumber = rootPos.game_ply() / 2;
+
+            if ((bool) options["Book1"] && currentMoveNumber < (int) options["Book1 Depth"])
+                bookMove = polybook[0].probe(rootPos, (bool) options["Book1 BestBookMove"],
+                                             (int) options["Book1 Width"]);
+
+            if (bookMove == Move::none() && (bool) options["Book2"]
+                && currentMoveNumber < (int) options["Book2 Depth"])
+                bookMove = polybook[1].probe(rootPos, (bool) options["Book2 BestBookMove"],
+                                             (int) options["Book2 Width"]);
+
+            if (bookMove == Move::none() && (bool) options["Book3"]
+                && currentMoveNumber < (int) options["Book3 Depth"])
+                bookMove = polybook[2].probe(rootPos, (bool) options["Book3 BestBookMove"],
+                                             (int) options["Book3 Width"]);
+
+            if (bookMove == Move::none() && (bool) options["Book4"]
+                && currentMoveNumber < (int) options["Book4 Depth"])
+                bookMove = polybook[3].probe(rootPos, (bool) options["Book4 BestBookMove"],
+                                             (int) options["Book4 Width"]);
+        }
+
+        if (bookMove != Move::none()
+            && std::find(rootMoves.begin(), rootMoves.end(), bookMove) != rootMoves.end())
+        {
+            for (auto&& th : threads)
+                std::swap(th->worker.get()->rootMoves[0],
+                          *std::find(th->worker.get()->rootMoves.begin(),
+                                     th->worker.get()->rootMoves.end(), bookMove));
+        }
+        else
+        {
+            threads.start_searching();  // start non-main threads
+            iterative_deepening();      // main thread start searching
+        }
     }
 
     // When we reach the maximum depth, we can arrive here without a raise of
