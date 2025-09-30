@@ -39,9 +39,9 @@ endif
 
 ### Executable name
 ifeq ($(target_windows),yes)
-	EXE = stockfish.exe
+        EXE = SF-PG-300925.exe
 else
-	EXE = stockfish
+        EXE = SF-PG-300925
 endif
 
 ### Installation dir definitions
@@ -886,7 +886,7 @@ endif
 
 help:
 	@echo "" && \
-	echo "To compile stockfish, type: " && \
+	echo "To compile SF-PG-300925, type: " && \
 	echo "" && \
 	echo "make -j target [ARCH=arch] [COMP=compiler] [COMPCXX=cxx]" && \
 	echo "" && \
@@ -1004,16 +1004,16 @@ clean: objclean profileclean
 
 # clean binaries and objects
 objclean:
-	@rm -f stockfish stockfish.exe *.o ./syzygy/*.o ./nnue/*.o ./nnue/features/*.o
+	@rm -f SF-PG-300925 SF-PG-300925.exe stockfish stockfish.exe *.o ./syzygy/*.o ./nnue/*.o ./nnue/features/*.o
 
 # clean auxiliary profiling files
 profileclean:
 	@rm -rf profdir
 	@rm -f bench.txt *.gcda *.gcno ./syzygy/*.gcda ./nnue/*.gcda ./nnue/features/*.gcda *.s PGOBENCH.out
-	@rm -f stockfish.profdata *.profraw
-	@rm -f stockfish.*args*
-	@rm -f stockfish.*lt*
-	@rm -f stockfish.res
+	@rm -f SF-PG-300925.profdata stockfish.profdata *.profraw
+	@rm -f SF-PG-300925.*args* stockfish.*args*
+	@rm -f SF-PG-300925.*lt* stockfish.*lt*
+	@rm -f SF-PG-300925.res stockfish.res
 	@rm -f ./-lstdc++.res
 
 # evaluation network (nnue)
@@ -1113,9 +1113,9 @@ clang-profile-make:
 	all
 
 clang-profile-use:
-	$(XCRUN) $(LLVM_PROFDATA) merge -output=stockfish.profdata *.profraw
+	$(XCRUN) $(LLVM_PROFDATA) merge -output=SF-PG-300925.profdata *.profraw
 	$(MAKE) ARCH=$(ARCH) COMP=$(COMP) \
-	EXTRACXXFLAGS='-fprofile-use=stockfish.profdata' \
+	EXTRACXXFLAGS='-fprofile-use=SF-PG-300925.profdata' \
 	EXTRALDFLAGS='-fprofile-use ' \
 	all
 
@@ -1141,9 +1141,9 @@ icx-profile-make:
 	all
 
 icx-profile-use:
-	$(XCRUN) $(LLVM_PROFDATA) merge -output=stockfish.profdata *.profraw
+	$(XCRUN) $(LLVM_PROFDATA) merge -output=SF-PG-300925.profdata *.profraw
 	$(MAKE) ARCH=$(ARCH) COMP=$(COMP) \
-	EXTRACXXFLAGS='-fprofile-instr-use=stockfish.profdata' \
+	EXTRACXXFLAGS='-fprofile-instr-use=SF-PG-300925.profdata' \
 	EXTRALDFLAGS='-fprofile-use ' \
 	all
 

@@ -1,6 +1,7 @@
 <div align="center">
 
-  [![Stockfish][stockfish128-logo]][website-link]
+  <img src="assets/sf-pg-300925-logo.svg" alt="Logotipo SF-PG-300925" width="220">
+  <br>
 
   <h3>SF-PG-300925</h3>
 
@@ -8,7 +9,7 @@
   <br>
   <strong>Id UCI oficial: SF-PG-300925</strong>
   <br>
-  <strong>Autores: Jorge Ruiz &amp; Codex ChatGPT</strong>
+  <strong>Autores: Desarrolladores de Stockfish, Jorge Ruiz &amp; Codex ChatGPT</strong>
   <br>
   <strong>[Documentación de Stockfish »][wiki-link]</strong>
   <br>
@@ -41,6 +42,9 @@ libros de aperturas Polyglot (`.bin`) y suma ideas generadas con la asistencia
 de la inteligencia artificial de ChatGPT. El identificador que muestra el
 ejecutable al ejecutar el comando `uci` es `id name SF-PG-300925`, lo que
 permite reconocer el motor en interfaces como Fritz 20, CuteChess y otras GUI.
+El binario resultante tras la compilación se denomina `SF-PG-300925` en
+Linux/macOS y `SF-PG-300925.exe` en Windows para reflejar explícitamente la
+autoría del derivado.
 
 Al igual que Stockfish, este proyecto **no incluye una interfaz gráfica**. Para
 visualizar el tablero y facilitar la introducción de jugadas debes utilizar una
@@ -52,17 +56,19 @@ Para profundizar en los conceptos y opciones heredados de Stockfish, consulta la
 
 ## Autores y créditos
 
+* **Desarrolladores de Stockfish** – Autoría original del motor base y
+  mantenedores del ecosistema Stockfish. Consulta los listados completos en
+  [AUTHORS](AUTHORS) y en [Top CPU Contributors.txt](Top CPU Contributors.txt).
 * **Jorge Ruiz** – Integración de mejoras, soporte Polyglot y mantenimiento del
   derivado SF-PG-300925.
-* **Codex ChatGPT** – Ideas estratégicas asistidas por IA y colaboración en la
-  adaptación del motor.
-* **Desarrolladores de Stockfish** – La lista completa de autores originales se
-  encuentra en el archivo [AUTHORS](AUTHORS) y en [Top CPU Contributors.txt](Top CPU Contributors.txt).
-  Cada archivo fuente de `src/` mantiene en su encabezado una referencia expresa
-  a estos colaboradores para honrar su contribución esencial.
+* **Codex ChatGPT** – Ideación asistida por IA, documentación y colaboración en
+  la adaptación del motor.
 
-Este trabajo es un derivado directo de Stockfish y respeta la licencia GPLv3
-incluida en [Copying.txt][license-link].
+Este trabajo es un derivado directo de Stockfish y se publica con la autoría
+colectiva de las tres partes anteriores, respetando la licencia GPLv3 incluida
+en [Copying.txt][license-link]. Cada archivo fuente de `src/` mantiene en su
+encabezado una referencia expresa a los desarrolladores de Stockfish para
+honrar su contribución esencial.
 
 Consulta también la [documentación de Stockfish][wiki-usage-link] para obtener
 más detalles de uso y configuración avanzada.
