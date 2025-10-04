@@ -224,6 +224,25 @@ class TestInteractive(metaclass=OrderedClassMembers):
     def test_set_threads_option(self):
         self.stockfish.send_command(f"setoption name Threads value {get_threads()}")
 
+    def test_empty_polybook_is_ignored(self):
+        empty_book = os.path.join(os.getcwd(), "empty_polybook.bin")
+
+        if os.path.exists(empty_book):
+            os.remove(empty_book)
+
+        with open(empty_book, "wb"):
+            pass
+
+        self.stockfish.send_command(
+            f"setoption name Book1 File value {empty_book}"
+        )
+        self.stockfish.send_command("ucinewgame")
+        self.stockfish.send_command("position startpos")
+        self.stockfish.send_command("go depth 1")
+        self.stockfish.starts_with("bestmove")
+
+        os.remove(empty_book)
+
     def test_ucinewgame_and_startpos_nodes_1000(self):
         self.stockfish.send_command("ucinewgame")
         self.stockfish.send_command("position startpos")
