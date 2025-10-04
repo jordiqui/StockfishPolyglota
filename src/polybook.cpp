@@ -353,7 +353,25 @@ void PolyBook::init(const std::string& bookfile) {
     std::size_t filesize = static_cast<std::size_t>(std::ftell(fpt));
     std::fseek(fpt, 0L, SEEK_SET);
 
-    keycount = static_cast<int>(filesize / 16);
+    keycount = static_cast<int>(filesize / sizeof(PolyHash));
+
+    if (filesize < sizeof(PolyHash) || keycount == 0)
+    {
+        if (polyhash)
+        {
+            std::free(polyhash);
+            polyhash = nullptr;
+        }
+
+        keycount = 0;
+        enabled  = false;
+
+        std::fclose(fpt);
+
+        sync_cout << "info string Book empty or corrupt: " << bookfile << sync_endl;
+        return;
+    }
+
     polyhash = static_cast<PolyHash*>(std::malloc(filesize));
     if (!polyhash)
     {
@@ -519,6 +537,9 @@ int PolyBook::find_first_key(uint64_t key) {
     index_weight_count = 0;
     index_best         = -1;
     index_rand         = -1;
+
+    if (keycount == 0 || polyhash == nullptr)
+        return -1;
 
     int start = 0;
     int end   = keycount;
