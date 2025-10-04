@@ -391,58 +391,100 @@ Move PolyBook::probe(Position& pos, bool bestBookMove, int width) {
     if (n < 1)
         return Move::none();
 
-    Move m;
-
-    if (bestBookMove || n == 1)
+    struct Candidate
     {
-        int idx = index_best;
-        m = pg_move_to_sf_move(pos, polyhash[idx].move);
+        Move move;
+        int  weight;
+    };
+
+    std::vector<Candidate> candidates;
+    candidates.reserve(n);
+
+    int  bestIndex  = -1;
+    int  bestWeight = -1;
+
+    for (int i = 0; i < n; ++i)
+    {
+        int  idx = index_first + i;
+        Move m  = pg_move_to_sf_move(pos, polyhash[idx].move);
+
+        if (!m.is_ok())
+            continue;
+
+        candidates.push_back({m, polyhash[idx].weight});
+
+        if (candidates.back().weight > bestWeight)
+        {
+            bestWeight = candidates.back().weight;
+            bestIndex  = static_cast<int>(candidates.size()) - 1;
+        }
+    }
+
+    if (candidates.empty())
+        return Move::none();
+
+    const Candidate& bestCandidate = candidates[bestIndex >= 0 ? bestIndex : 0];
+
+    Move selected = Move::none();
+
+    if (bestBookMove || candidates.size() == 1)
+    {
+        selected = bestCandidate.move;
     }
     else
     {
         // Smooth mapping: from width=1 (free/random) to width=10 (selective/strict)
         double exponent = 1.0 + (std::clamp(width, 1, 10) - 1) * 0.5;
 
-        std::vector<double> scores(n);
+        std::vector<double> scores;
+        scores.reserve(candidates.size());
+
         double total = 0.0;
 
-        for (int i = 0; i < n; ++i)
+        for (const auto& cand : candidates)
         {
-            int w = polyhash[index_first + i].weight;
-            double s = std::pow(static_cast<double>(w), exponent);
-            scores[i] = s;
+            double s = std::pow(static_cast<double>(cand.weight), exponent);
+            scores.push_back(s);
             total += s;
         }
 
-        double r = (double)(rng.rand<uint32_t>() % 1000000) / 1000000.0 * total;
-        double sum = 0.0;
-        int idx = index_first;
-
-        for (int i = 0; i < n; ++i)
+        if (total <= 0.0)
         {
-            sum += scores[i];
-            if (sum >= r)
-            {
-                idx = index_first + i;
-                break;
-            }
+            selected = bestCandidate.move;
         }
+        else
+        {
+            double r = (double)(rng.rand<uint32_t>() % 1000000) / 1000000.0 * total;
+            double sum = 0.0;
 
-        m = pg_move_to_sf_move(pos, polyhash[idx].move);
+            for (std::size_t i = 0; i < candidates.size(); ++i)
+            {
+                sum += scores[i];
+                if (sum >= r)
+                {
+                    selected = candidates[i].move;
+                    break;
+                }
+            }
+
+            if (!selected.is_ok())
+                selected = candidates.back().move;
+        }
     }
 
-    if (n == 1 || !check_draw(pos, m))
-        return m;
+    if (!selected.is_ok())
+        return Move::none();
 
-    if (n > 1)
+    if (!check_draw(pos, selected))
+        return selected;
+
+    for (const auto& cand : candidates)
     {
-        int idx = index_first;
-        if (m == pg_move_to_sf_move(pos, polyhash[index_first].move))
-            idx = index_first + 1;
+        if (cand.move == selected)
+            continue;
 
-        m = pg_move_to_sf_move(pos, polyhash[idx].move);
-        if (!check_draw(pos, m))
-            return m;
+        if (!check_draw(pos, cand.move))
+            return cand.move;
     }
 
     return Move::none();
