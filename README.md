@@ -1,13 +1,13 @@
 <div align="center">
 
-  <img src="assets/sf-pg-300925-logo.svg" alt="Logotipo SF-PG-300925" width="220">
+  <img src="assets/sf-pg-041025-logo.svg" alt="Logotipo SF-PG-041025" width="220">
   <br>
 
-  <h3>SF-PG-300925</h3>
+  <h3>SF-PG-041025</h3>
 
   Motor de ajedrez derivado de Stockfish con soporte para libros Polyglot (.bin) e ideas aportadas por la IA de ChatGPT.
   <br>
-  <strong>Id UCI oficial: SF-PG-300925</strong>
+  <strong>Id UCI oficial: SF-PG-041025</strong>
   <br>
   <strong>Autores: Desarrolladores de Stockfish, Jorge Ruiz &amp; Codex ChatGPT</strong>
   <br>
@@ -36,14 +36,14 @@
 
 ## Overview
 
-SF-PG-300925 es un motor de ajedrez UCI **derivado de [Stockfish][website-link]**
+SF-PG-041025 es un motor de ajedrez UCI **derivado de [Stockfish][website-link]**
 que mantiene su fuerza táctica y estratégica, incorpora soporte nativo para
 libros de aperturas Polyglot (`.bin`) y suma ideas generadas con la asistencia
 de la inteligencia artificial de ChatGPT. El identificador que muestra el
-ejecutable al ejecutar el comando `uci` es `id name SF-PG-300925`, lo que
+ejecutable al ejecutar el comando `uci` es `id name SF-PG-041025`, lo que
 permite reconocer el motor en interfaces como Fritz 20, CuteChess y otras GUI.
-El binario resultante tras la compilación se denomina `SF-PG-300925` en
-Linux/macOS y `SF-PG-300925.exe` en Windows para reflejar explícitamente la
+El binario resultante tras la compilación se denomina `SF-PG-041025` en
+Linux/macOS y `SF-PG-041025.exe` en Windows para reflejar explícitamente la
 autoría del derivado.
 
 Al igual que Stockfish, este proyecto **no incluye una interfaz gráfica**. Para
@@ -60,7 +60,7 @@ Para profundizar en los conceptos y opciones heredados de Stockfish, consulta la
   mantenedores del ecosistema Stockfish. Consulta los listados completos en
   [AUTHORS](AUTHORS) y en [Top CPU Contributors.txt](Top CPU Contributors.txt).
 * **Jorge Ruiz** – Integración de mejoras, soporte Polyglot y mantenimiento del
-  derivado SF-PG-300925.
+  derivado SF-PG-041025.
 * **Codex ChatGPT** – Ideación asistida por IA, documentación y colaboración en
   la adaptación del motor.
 
